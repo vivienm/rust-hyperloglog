@@ -37,7 +37,7 @@ impl Registers {
     }
 
     pub fn iter(&self) -> impl Iterator<Item = u8> + '_ {
-        self.values.iter().map(|value| *value)
+        self.values.iter().copied()
     }
 
     pub fn clear(&mut self) {
@@ -60,7 +60,7 @@ impl Registers {
 
     pub fn merge_unchecked(&self, rhs: &Self) -> Self {
         Self {
-            precision: self.precision.clone(),
+            precision: self.precision,
             values: self
                 .values
                 .iter()
