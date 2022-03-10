@@ -524,7 +524,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// let mut hll = HyperLogLog::&lt;i32&gt;::new();</span>
 <span class="doccomment">/// for i in 0..100_000 {</span>
-<span class="doccomment">///      hll.insert(&amp;i);</span>
+<span class="doccomment">///     hll.insert(&amp;i);</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// assert!((50_000..150_000).contains(&amp;hll.len()));</span>
 <span class="doccomment">/// ```</span>
@@ -563,7 +563,7 @@
     <span class="doccomment">/// # Examples</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use hyperloglog::{Precision, HyperLogLog};</span>
+    <span class="doccomment">/// use hyperloglog::{HyperLogLog, Precision};</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// let hll = HyperLogLog::&lt;i32&gt;::with_precision(Precision::P12);</span>
     <span class="doccomment">/// ```</span>
@@ -605,7 +605,7 @@
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// use std::collections::hash_map::RandomState;</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// use hyperloglog::{Precision, HyperLogLog};</span>
+    <span class="doccomment">/// use hyperloglog::{HyperLogLog, Precision};</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// let s = RandomState::new();</span>
     <span class="doccomment">/// let mut hll = HyperLogLog::&lt;i32, _&gt;::with_precision_and_hasher(Precision::P12, s);</span>
