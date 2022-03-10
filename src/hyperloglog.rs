@@ -31,7 +31,7 @@ fn alpha(num_bits: u8, num_registers: usize) -> f64 {
 ///
 /// let mut hll = HyperLogLog::<i32>::new();
 /// for i in 0..100_000 {
-///      hll.insert(&i);
+///     hll.insert(&i);
 /// }
 /// assert!((50_000..150_000).contains(&hll.len()));
 /// ```
@@ -70,7 +70,7 @@ where
     /// # Examples
     ///
     /// ```
-    /// use hyperloglog::{Precision, HyperLogLog};
+    /// use hyperloglog::{HyperLogLog, Precision};
     ///
     /// let hll = HyperLogLog::<i32>::with_precision(Precision::P12);
     /// ```
@@ -112,7 +112,7 @@ where
     /// ```
     /// use std::collections::hash_map::RandomState;
     ///
-    /// use hyperloglog::{Precision, HyperLogLog};
+    /// use hyperloglog::{HyperLogLog, Precision};
     ///
     /// let s = RandomState::new();
     /// let mut hll = HyperLogLog::<i32, _>::with_precision_and_hasher(Precision::P12, s);
