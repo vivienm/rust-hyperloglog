@@ -498,6 +498,10 @@
 <span id="493">493</span>
 <span id="494">494</span>
 <span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">borrow::Borrow</span>,
     <span class="ident">collections::hash_map</span>::{<span class="ident">DefaultHasher</span>, <span class="ident">RandomState</span>},
@@ -807,10 +811,14 @@
     <span class="ident">S</span>: <span class="ident">Eq</span>,
 {
     <span class="kw">if</span> <span class="ident">lhs</span>.<span class="ident">precision</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">rhs</span>.<span class="ident">precision</span>() {
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TryMergeError</span>(<span class="ident">TryMergeErrorKind::Precision</span>));
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TryMergeError</span> {
+            <span class="ident">kind</span>: <span class="ident">TryMergeErrorKind::Precision</span>,
+        });
     }
     <span class="kw">if</span> <span class="ident">lhs</span>.<span class="ident">hasher</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">rhs</span>.<span class="ident">hasher</span>() {
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TryMergeError</span>(<span class="ident">TryMergeErrorKind::Hasher</span>));
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TryMergeError</span> {
+            <span class="ident">kind</span>: <span class="ident">TryMergeErrorKind::Hasher</span>,
+        });
     }
     <span class="prelude-val">Ok</span>(())
 }
