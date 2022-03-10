@@ -71,7 +71,15 @@ impl Precision {
     pub const MAX: Self = Self::P18;
 
     /// All possible precisions, in increasing order.
-    pub const fn variants<'a>() -> &'a [Self] {
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use hyperloglog::Precision;
+    ///
+    /// assert!(Precision::variants().contains(&Precision::P12));
+    /// ```
+    pub const fn variants() -> &'static [Self] {
         &[
             Self::P4,
             Self::P5,
