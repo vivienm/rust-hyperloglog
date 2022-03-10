@@ -5,6 +5,11 @@ use crate::error::TryFromIntError;
 /// The precision of the hyperloglog, that is,
 /// the number of bytes used for sharding accross registers.
 ///
+/// A hyperloglog with precision `p` will have `2^p` registers and require
+/// a proportional amount of memory.
+///
+/// Default precision is 12 bits, i.e. 4096 registers.
+///
 /// # Examples
 ///
 /// ```
@@ -48,7 +53,7 @@ pub enum Precision {
 }
 
 impl Precision {
-    /// The smallest precision: 4 bits.
+    /// The smallest available precision: 4 bits.
     ///
     /// # Examples
     ///
@@ -59,7 +64,7 @@ impl Precision {
     /// ```
     pub const MIN: Self = Self::P4;
 
-    /// The largest precision: 18 bits.
+    /// The largest available precision: 18 bits.
     ///
     /// # Examples
     ///
@@ -70,7 +75,7 @@ impl Precision {
     /// ```
     pub const MAX: Self = Self::P18;
 
-    /// All possible precisions, in increasing order.
+    /// All available precisions, in increasing order.
     ///
     /// # Examples
     ///
@@ -98,7 +103,7 @@ impl Precision {
         ]
     }
 
-    /// Checks whether the given value is in the range of valid precision values.
+    /// Checks whether the given value is in the range of valid precisions.
     ///
     /// # Examples
     ///
@@ -106,6 +111,7 @@ impl Precision {
     /// use hyperloglog::Precision;
     ///
     /// assert!(Precision::in_range(12));
+    /// assert!(!Precision::in_range(20));
     /// ```
     pub const fn in_range(value: u8) -> bool {
         Self::MIN.get() <= value && value <= Self::MAX.get()
@@ -119,6 +125,7 @@ impl Precision {
     /// use hyperloglog::Precision;
     ///
     /// assert_eq!(Precision::new(12), Some(Precision::P12));
+    /// assert_eq!(Precision::new(20), None);
     /// ```
     pub const fn new(value: u8) -> Option<Self> {
         match value {
