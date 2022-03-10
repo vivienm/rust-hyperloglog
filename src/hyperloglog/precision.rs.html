@@ -176,6 +176,14 @@
 <span id="174">174</span>
 <span id="175">175</span>
 <span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::fmt</span>::{<span class="self">self</span>, <span class="ident">Display</span>};
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::error::TryFromIntError</span>;
@@ -249,7 +257,15 @@
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MAX</span>: <span class="self">Self</span> <span class="op">=</span> <span class="ident"><span class="self">Self</span>::P18</span>;
 
     <span class="doccomment">/// All possible precisions, in increasing order.</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">variants</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="self">Self</span>] {
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use hyperloglog::Precision;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// assert!(Precision::variants().contains(&amp;Precision::P12));</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">variants</span>() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="self">Self</span>] {
         <span class="kw-2">&amp;</span>[
             <span class="ident"><span class="self">Self</span>::P4</span>,
             <span class="ident"><span class="self">Self</span>::P5</span>,
