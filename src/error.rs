@@ -39,27 +39,15 @@ pub enum TryMergeErrorKind {
 /// assert_eq!(error.kind(), TryMergeErrorKind::Precision);
 /// ```
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub struct TryMergeError(pub(crate) TryMergeErrorKind);
+pub struct TryMergeError {
+    pub(crate) kind: TryMergeErrorKind,
+}
 
 impl TryMergeError {
-    /// Creates a new merge error from a known kind of error.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use hyperloglog::{TryMergeError, TryMergeErrorKind};
-    ///
-    /// let error = TryMergeError::new(TryMergeErrorKind::Precision);
-    /// ```
-    #[inline]
-    pub fn new(kind: TryMergeErrorKind) -> Self {
-        Self(kind)
-    }
-
     /// Returns the corresponding [`TryMergeErrorKind`] for this error.
     #[inline]
     pub fn kind(&self) -> TryMergeErrorKind {
-        self.0
+        self.kind
     }
 }
 
@@ -76,10 +64,3 @@ impl Display for TryMergeError {
 }
 
 impl Error for TryMergeError {}
-
-impl From<TryMergeErrorKind> for TryMergeError {
-    #[inline]
-    fn from(kind: TryMergeErrorKind) -> Self {
-        Self::new(kind)
-    }
-}

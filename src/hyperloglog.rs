@@ -307,10 +307,14 @@ where
     S: Eq,
 {
     if lhs.precision() != rhs.precision() {
-        return Err(TryMergeError(TryMergeErrorKind::Precision));
+        return Err(TryMergeError {
+            kind: TryMergeErrorKind::Precision,
+        });
     }
     if lhs.hasher() != rhs.hasher() {
-        return Err(TryMergeError(TryMergeErrorKind::Hasher));
+        return Err(TryMergeError {
+            kind: TryMergeErrorKind::Hasher,
+        });
     }
     Ok(())
 }
