@@ -26,6 +26,8 @@ fn alpha(num_bits: u8, num_registers: usize) -> f64 {
 
 /// A hyperloglog data structure to estimate the number of distinct elements in a data stream.
 ///
+/// # Examples
+///
 /// ```
 /// use hyperloglog::HyperLogLog;
 ///
@@ -173,6 +175,8 @@ where
     /// Hash values need to be uniformly distributed over [u64] for an accurate total count.
     ///
     /// In all other cases, use [`HyperLogLog::insert`] instead.
+    ///
+    /// # Examples
     ///
     /// ```
     /// use std::{
