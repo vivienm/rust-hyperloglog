@@ -1,22 +1,35 @@
-use std::cmp::max;
+use std::iter::FusedIterator;
+
+use bitvec::{field::BitField, order::Lsb0, slice::Chunks, vec::BitVec};
 
 use crate::precision::Precision;
+
+const CHUNK_SIZE: usize = 6;
+
+#[inline]
+fn bit_index(index: usize) -> usize {
+    index * CHUNK_SIZE
+}
 
 #[derive(Clone, Debug)]
 pub struct Registers {
     precision: Precision,
-    values: Vec<u8>,
+    len: usize,
+    bits: BitVec,
 }
 
 impl Registers {
     pub fn with_precision(precision: Precision) -> Self {
-        let num_registers = 1 << precision.get();
+        let len = 1 << precision.get();
         Self {
             precision,
-            values: vec![0; num_registers],
+            len,
+            bits: BitVec::repeat(false, bit_index(len)),
         }
     }
 }
+
+impl<'a> FusedIterator for Iter<'a> {}
 
 impl Registers {
     #[inline]
@@ -26,47 +39,64 @@ impl Registers {
 
     #[inline]
     pub fn len(&self) -> usize {
-        self.values.len()
+        self.len
     }
 
     pub fn update(&mut self, index: usize, value: u8) {
-        let current_p = self.values.get_mut(index).unwrap();
-        if *current_p < value {
-            *current_p = value;
+        let bit_slice = self
+            .bits
+            .get_mut(bit_index(index)..bit_index(index + 1))
+            .expect("invalid index");
+        if bit_slice.load::<u8>() < value {
+            debug_assert!(value < 1 << CHUNK_SIZE);
+            bit_slice.store(value);
         }
     }
 
-    pub fn iter(&self) -> impl Iterator<Item = u8> + '_ {
-        self.values.iter().copied()
+    pub fn iter(&self) -> Iter {
+        Iter {
+            chunks: self.bits.chunks(CHUNK_SIZE),
+        }
     }
 
     pub fn clear(&mut self) {
-        for value in &mut self.values {
-            *value = 0;
-        }
+        self.bits.set_elements(0)
     }
 
     pub fn is_empty(&self) -> bool {
-        self.values.iter().all(|value| *value == 0)
+        !self.bits.any()
     }
 
     pub fn merge_from_unchecked(&mut self, rhs: &Self) {
-        for (self_value_p, rhs_value_p) in self.values.iter_mut().zip(rhs.values.iter()) {
-            if *self_value_p < *rhs_value_p {
-                *self_value_p = *rhs_value_p;
+        for (self_chunk, rhs_chunk) in self
+            .bits
+            .chunks_mut(CHUNK_SIZE)
+            .zip(rhs.bits.chunks(CHUNK_SIZE))
+        {
+            let self_value: u8 = self_chunk.load();
+            let rhs_value: u8 = rhs_chunk.load();
+            if self_value < rhs_value {
+                self_chunk.store(rhs_value);
             }
         }
     }
 
     pub fn merge_unchecked(&self, rhs: &Self) -> Self {
-        Self {
-            precision: self.precision,
-            values: self
-                .values
-                .iter()
-                .zip(rhs.values.iter())
-                .map(|(self_value_p, other_value_p)| max(*self_value_p, *other_value_p))
-                .collect(),
-        }
+        let mut new = self.clone();
+        new.merge_from_unchecked(rhs);
+        new
+    }
+}
+
+#[derive(Debug)]
+pub struct Iter<'a> {
+    chunks: Chunks<'a, usize, Lsb0>,
+}
+
+impl<'a> Iterator for Iter<'a> {
+    type Item = u8;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.chunks.next().map(|chunk| chunk.load())
     }
 }
