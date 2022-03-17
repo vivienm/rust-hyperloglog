@@ -150,12 +150,12 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">update</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>, <span class="ident">value</span>: <span class="ident">u8</span>) {
+        <span class="macro">debug_assert!</span>(<span class="ident">value</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">CHUNK_SIZE</span>);
         <span class="kw">let</span> <span class="ident">bit_slice</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">bits</span>
             .<span class="ident">get_mut</span>(<span class="ident">bit_index</span>(<span class="ident">index</span>)..<span class="ident">bit_index</span>(<span class="ident">index</span> <span class="op">+</span> <span class="number">1</span>))
             .<span class="ident">expect</span>(<span class="string">&quot;invalid index&quot;</span>);
         <span class="kw">if</span> <span class="ident">bit_slice</span>.<span class="ident">load</span>::<span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>() <span class="op">&lt;</span> <span class="ident">value</span> {
-            <span class="macro">debug_assert!</span>(<span class="ident">value</span> <span class="op">&lt;</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">CHUNK_SIZE</span>);
             <span class="ident">bit_slice</span>.<span class="ident">store</span>(<span class="ident">value</span>);
         }
     }
@@ -208,5 +208,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="hyperloglog" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (52b34550a 2022-03-15)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="hyperloglog" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (461e80780 2022-03-16)" ></div>
 </body></html>
