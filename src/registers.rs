@@ -43,12 +43,12 @@ impl Registers {
     }
 
     pub fn update(&mut self, index: usize, value: u8) {
+        debug_assert!(value < 1 << CHUNK_SIZE);
         let bit_slice = self
             .bits
             .get_mut(bit_index(index)..bit_index(index + 1))
             .expect("invalid index");
         if bit_slice.load::<u8>() < value {
-            debug_assert!(value < 1 << CHUNK_SIZE);
             bit_slice.store(value);
         }
     }
