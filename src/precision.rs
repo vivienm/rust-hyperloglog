@@ -98,6 +98,7 @@ impl Precision {
             Self::P13,
             Self::P14,
             Self::P15,
+            Self::P16,
             Self::P17,
             Self::P18,
         ]
