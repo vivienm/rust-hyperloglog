@@ -52,9 +52,7 @@ impl Registers {
 
     pub fn merge_from_unchecked(&mut self, rhs: &Self) {
         for (self_value_p, rhs_value_p) in self.values.iter_mut().zip(rhs.values.iter()) {
-            if *self_value_p < *rhs_value_p {
-                *self_value_p = *rhs_value_p;
-            }
+            *self_value_p = max(*self_value_p, *rhs_value_p);
         }
     }
 
