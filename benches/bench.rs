@@ -21,7 +21,7 @@ fn insert(b: &mut Bencher) {
 }
 
 #[bench]
-fn count(b: &mut Bencher) {
+fn len(b: &mut Bencher) {
     let mut hll = HyperLogLog::<i32>::new();
     for i in 0..100_000 {
         hll.insert(&i);
