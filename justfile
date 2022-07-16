@@ -12,6 +12,9 @@ check:
 test:
     {{cargo}} test
 
+bench:
+    {{cargo}} +nightly bench
+
 fmt:
     {{cargo}} fmt --all -- --check
 
