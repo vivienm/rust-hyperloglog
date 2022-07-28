@@ -10,23 +10,25 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
     - uses: "actions/checkout@v3"
-    - uses: "dtolnay/rust-toolchain@stable"
-    - run: "cargo check"
+    - uses: "dtolnay/rust-toolchain@nightly"
+    - run: "cargo check --all-features"
 
   test:
     name: "Test"
     runs-on: "ubuntu-latest"
     steps:
     - uses: "actions/checkout@v3"
-    - uses: "dtolnay/rust-toolchain@stable"
-    - run: "cargo test"
+    - uses: "dtolnay/rust-toolchain@nightly"
+    - run: "cargo test --all-features"
 
   fmt:
     name: "Fmt"
     runs-on: "ubuntu-latest"
     steps:
     - uses: "actions/checkout@v3"
-    - uses: "dtolnay/rust-toolchain@stable"
+    - uses: "dtolnay/rust-toolchain@nightly"
+      with:
+        components: "rustfmt"
     - run: "cargo fmt --all -- --check"
 
   clippy:
@@ -34,7 +36,9 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
     - uses: "actions/checkout@v3"
-    - uses: "dtolnay/rust-toolchain@stable"
+    - uses: "dtolnay/rust-toolchain@nightly"
+      with:
+        components: "clippy"
     - run: "cargo clippy -- -D warnings"
 
   doc:
@@ -42,9 +46,9 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
     - uses: "actions/checkout@v3"
-    - uses: "dtolnay/rust-toolchain@stable"
-    - run: "cargo rustdoc -- -D warnings"
-    - if: "${{ github.ref == 'refs/heads/master' }}"
+    - uses: "dtolnay/rust-toolchain@nightly"
+    - run: "cargo rustdoc --all-features -- -D warnings"
+    - if: "github.ref == 'refs/heads/master'"
       uses: "JamesIves/github-pages-deploy-action@v4"
       with:
         folder: "target/doc"

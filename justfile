@@ -1,28 +1,22 @@
-DEFAULT: ci
-cargo := "cargo"
-
-ci: check test fmt clippy doc deny
+DEFAULT: check test fmt clippy doc deny
 
 build:
-    {{cargo}} build
+    cargo build --all-features
 
 check:
-    {{cargo}} check
+    cargo check --all-features
 
 test:
-    {{cargo}} test
-
-bench:
-    {{cargo}} +nightly bench
+    cargo test --all-features
 
 fmt:
-    {{cargo}} fmt --all -- --check
+    cargo fmt --all -- --check
 
 clippy:
-    {{cargo}} clippy -- -D warnings
+    cargo clippy -- -D warnings
 
 doc:
-    {{cargo}} rustdoc -- -D warnings
+    cargo rustdoc --all-features -- -D warnings
 
 deny:
-    {{cargo}} deny check
+    cargo deny --all-features check
